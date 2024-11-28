@@ -1,0 +1,79 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .image-button-group {
+            display: flex;
+            justify-content: center; /* จัดให้อยู่กึ่งกลาง */
+            gap: 30px; /* ระยะห่างระหว่างปุ่ม */
+            margin-bottom: 20px;
+        }
+
+        .image-button {
+            border: none;
+            background: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+            .image-button img {
+                width: 120px;
+                height: 120px;
+                object-fit: cover;
+                border-radius: 15px; /* ปุ่มมุมโค้งมน */
+                border: 2px solid #ddd; /* เส้นขอบ */
+                transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            }
+
+                .image-button img:hover {
+                    transform: scale(1.1); /* ขยายเมื่อชี้เมาส์ */
+                    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3); /* เงา */
+                    border-color: #007bff; /* เปลี่ยนสีขอบ */
+                }
+
+        .button-label {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">ระบบจัดการผู้เล่น ภายใน Server</h1>
+        <!-- Button Group 1 -->
+        <div class="image-button-group">
+            <div>
+                <a href="/Management/Car_plate" class="image-button">
+                    <img src="https://via.placeholder.com/120?text=Option1" alt="Option 1">
+                    <div class="button-label">จัดการทะเบียนรถ</div>
+                </a>
+            </div>
+            <div>
+                <a href="/Management/Item_list" class="image-button">
+                    <img src="https://via.placeholder.com/120?text=Option2" alt="Item_list">
+                    <div class="button-label">ดูจำนวน Item</div>
+                </a>
+            </div>
+            <div>
+                <a href="/Management/Player_info" class="image-button">
+                    <img src="https://via.placeholder.com/120?text=Option3" alt="Option 3">
+                    <div class="button-label">ดูข้อมูลผู้เล่น</div>
+                </a>
+            </div>
+        </div>
+     
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
