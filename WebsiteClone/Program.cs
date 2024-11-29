@@ -1,3 +1,4 @@
+using AspNetCore.Unobtrusive.Ajax;
 using Microsoft.EntityFrameworkCore;
 using WebsiteClone.Data;
 var builder = WebApplication.CreateBuilder(args);
@@ -8,8 +9,12 @@ builder.Services.AddControllersWithViews();
 ///************************************************************** Conect Database **************************************************************
 builder.Services.AddDbContext<ApplicationDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddUnobtrusiveAjax(useCdn: true, injectScriptIfNeeded: false);
+
 
 var app = builder.Build();
+
+app.UseUnobtrusiveAjax();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

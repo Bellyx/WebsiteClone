@@ -1,167 +1,82 @@
-﻿
-@model IEnumerable<WebsiteClone.Models.Users>;
-
+﻿@model IEnumerable<WebsiteClone.Models.Users>;
+      
 @{
-    ViewData["Title"] = "ข้อมูลผู้เล่น";
+    ViewData["Title"] = "Index";
     // ชื่อเซิฟเวอร์
     var Name_server = "OneTimeOnly";
     // จำนวนคนออนไลน์
     var dataCount = ViewBag.DataCount;
 }
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-<h1>ข้อมูลผู้เล่นทั้งหมดเชิฟเวอร์ : @Name_server</h1>
-<p>จำนวนผู้เล่น : <span class="highlight">@dataCount</span> คน</p>
-<p id="loadTime">Loading time will be displayed here.</p>
-<div class="text-center mt-4">
-    <a href="/Management" class="btn btn-secondary">ย้อนกลับไปยังหน้า Management</a>
-</div>
-<div class="container mt-5">
-    <!-- ช่องค้นหาข้อมูล -->
-    <div class="mb-4">
-        <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="ค้นหาข้อมูล (เช่น ชื่อ, ไอดีสตรีม)" aria-label="ค้นหาข้อมูล">
-    </div>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ข้อมูลผู้เล่นทั้งหมด </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>ข้อมูลผู้เล่นทั้งหมดเชิฟเวอร์ : @Name_server</h1>
+        <h2>ชื่อเซิฟเวอร์   </h2>
+        <p>จำนวนผู้เล่น : <span class="highlight">@dataCount</span> คน</p>
+        <p id="loadTime">Loading time will be displayed here.</p>
 
-    <!-- ตารางแสดงข้อมูล -->
-    <table class="table table-striped table-hover table-bordered" id="userTable">
-        <thead class="table-dark text-center">
-            <tr>
-                <th>Steam ID</th>
-                <th>เพศ</th>
-                <th>ชื่อ</th>
-                <th>นามสกุล</th>
-                <th>เบอร์โทร</th>
-                <th>แก้ไข</th>
-                <th>ลบ</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var Users in Model)
-            {
+        <div class="text-center mt-4">
+            <a href="/Management" class="btn btn-secondary">ย้อนกลับไปยังหน้า Management</a>
+        </div>
+
+        <!-- ช่องค้นหาข้อมูล -->
+        <div class="mb-4">
+            <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="ค้นหาข้อมูล (เช่น ชื่อ, ไอดีสตรีม)" aria-label="ค้นหาข้อมูล">
+        </div>
+
+        <!-- ตารางแสดงข้อมูล -->
+        <table class="table table-striped table-hover table-bordered" id="userTable">
+            <thead class="table-dark text-center">
                 <tr>
-                    <td>@Users.identifier</td>
-                    <td>@Users.sex</td>
-                    <td>@Users.firstname</td>
-                    <td>@Users.lastname</td>
-                    <td>@Users.Phone_number</td>
-                    <td style="text-align: center;">
-                        <a href="@Url.Action("Edit", new { id = Users.identifier })" class="btn btn-warning btn-sm rounded-pill">
-                            <i class="bi bi-pencil"></i> แก้ไข
-                        </a>
-                    </td>
-                    <td style="text-align: center;">
-                        <a href="@Url.Action("Delete", new { id = Users.identifier })" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('คุณต้องการลบข้อมูลนี้ใช่หรือไม่?');">
-                            <i class="bi bi-trash"></i> ลบ
-                        </a>
-                    </td>
+                    <th>Steam ID</th>
+                    <th>เพศ</th>
+                    <th>ชื่อ</th>
+                    <th>นามสกุล</th>
+                    <th>เบอร์โทร</th>
+                    <th>แก้ไข</th>
+                    <th>ลบ</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
-
-
-
-
-<script>
-    // ฟังก์ชันค้นหา
-    document.getElementById('searchInput').addEventListener('keyup', function() {
-        var filter = this.value.trim().toUpperCase(); // รับค่าค้นหาจากช่องค้นหาและตัดช่องว่างออก
-        var table = document.getElementById('userTable');
-        var rows = table.getElementsByTagName('tr');
-
-        // ลูปผ่านแต่ละแถวของตาราง
-        for (var i = 1; i < rows.length; i++) { // เริ่มจากแถวที่ 1 เพราะแถว 0 เป็นหัวตาราง
-            var cells = rows[i].getElementsByTagName('td');
-            var match = false;
-
-            // ลูปผ่านเซลล์ในแต่ละแถว
-            for (var j = 0; j < cells.length; j++) {
-                var cell = cells[j];
-                if (cell) {
-                    if (cell.textContent.trim().toUpperCase().indexOf(filter) > -1) {
-                        match = true;
-                        break;
-                    }
+            </thead>
+            <tbody>
+                @foreach (var Users in Model)
+                {
+                    <tr>
+                        <td>@Users.identifier</td>
+                        <td>@Users.sex</td>
+                        <td>@Users.firstname</td>
+                        <td>@Users.lastname</td>
+                        <td>@Users.Phone_number</td>
+                        <td style="text-align: center;">
+                            <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#addEmployee"
+                                    data-url="@Url.Action("Edit")">
+                                Edit
+                            </button>
+                        </td>
+                        <td style="text-align: center;">
+                            <a href="@Url.Action("Delete", new { id = Users.identifier })" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('คุณต้องการลบข้อมูลนี้ใช่หรือไม่?');">
+                                <i class="bi bi-trash"></i> ลบ
+                            </a>
+                        </td>
+                    </tr>
                 }
-            }
+            </tbody>
+        </table>
+    </div>
+    <script src="~/js/site.js"></script>
+    <script src="~/lib/config/config.js"></script>
+    <script>
+     
+    </script>
+</body>
+</html>
 
-            // ซ่อนหรือแสดงแถวตามผลลัพธ์การค้นหา
-            if (match) {
-                rows[i].style.display = '';
-            } else {
-                rows[i].style.display = 'none';
-            }
-        }
-    });
-</script>
 
-@* Function สำหรับการคำนวณระยะเวลาการโหลดเข้าหน้าเพจ *@
-<script>
-    var startTime = performance.now(); // Capture start time
-
-    window.onload = function () {
-        var endTime = performance.now(); // Capture end time after page load
-        var loadTime = (endTime - startTime) / 1000; // Calculate time in seconds
-
-        // Format to 2 decimal places
-        var loadTimeInSeconds = loadTime.toFixed(2);
-
-        // Display the load time in seconds with two decimals
-        document.getElementById('loadTime').innerText = "Page loaded in " + loadTimeInSeconds + " seconds";
-    };
-</script>
-    @* ////////////////////////////////////////////////// *@
-
-<!-- เพิ่ม CSS สำหรับการตกแต่งเพิ่มเติม -->
-<style>
-    /* ตกแต่งช่องค้นหา */
-    #searchInput {
-        font-size: 1.1rem;
-        padding: 10px;
-        border-radius: 30px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-    }
-
-        #searchInput:focus {
-            border-color: #007bff;
-            box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
-        }
-
-    /* ปรับแต่งปุ่มในตาราง */
-    .btn {
-        font-size: 0.9rem;
-        padding: 8px 12px;
-    }
-
-    .table td, .table th {
-        vertical-align: middle;
-    }
-
-    /* ปรับแต่งการแสดงตาราง */
-    .table {
-        border-radius: 10px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-        .table th {
-            font-size: 1.1rem;
-            font-weight: bold;
-        }
-
-    /* เพิ่มแถวที่สวยงามสำหรับการแสดงผล */
-    .table-striped tbody tr:nth-child(odd) {
-        background-color: #f9f9f9;
-    }
-
-    .table-hover tbody tr:hover {
-        background-color: #f1f1f1;
-        cursor: pointer;
-    }
-    /* จำนวนคนด้านบน */
-    .highlight {
-        color: red;
-        font-weight: bold;
-    }
-</style>

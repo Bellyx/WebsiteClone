@@ -1,11 +1,27 @@
+﻿
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+@media (max-width: 576px) {
+    #searchInput {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+
+    .btn {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+    }
+
+    .table th, .table td {
+        font-size: 0.85rem;
+    }
+
+    .table {
+        border-radius: 5px;
+        box-shadow: none;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
@@ -29,3 +45,58 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+
+/*<!-- เพิ่ม CSS สำหรับการตกแต่งเพิ่มเติม   -->*/
+
+/*Start Player_info*/
+
+/*/* ตกแต่งช่องค้นหา */
+#searchInput {
+    font-size: 1.1rem;
+    padding: 10px;
+    border-radius: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+#searchInput:focus {
+    border-color: #007bff;
+    box-shadow: 0 4px 6px rgba(0, 123, 255, 0.3);
+}
+
+/* ปรับแต่งปุ่มในตาราง */
+.btn {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+/* ปรับแต่งการแสดงตาราง */
+.table {
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+    .table th {
+        font-size: 1.1rem;
+        font-weight: bold;
+    }
+
+/* เพิ่มแถวที่สวยงามสำหรับการแสดงผล */
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+/* จำนวนคนด้านบน */
+.highlight {
+    color: red;
+    font-weight: bold;
+}
+/* END  Player_info*/

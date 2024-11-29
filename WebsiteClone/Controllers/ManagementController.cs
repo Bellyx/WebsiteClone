@@ -36,5 +36,8 @@ namespace WebsiteClone.Controllers
             ViewBag.DataCount = Allplayer.Count(); // นับจำนวนข้อมูล
             return View(Allplayer);
         }
+
+    
+
     }
 }
