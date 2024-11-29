@@ -9,6 +9,6 @@ namespace WebsiteClone.Data
             
         }
         public DbSet<Users> Users { get; set; }
-     
+        public DbSet<Car_plate> Car_Plate { get; set; }
     }
 }

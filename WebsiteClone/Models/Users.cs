@@ -5,12 +5,12 @@ namespace WebsiteClone.Models
     public class Users
     {
         [Key]
-        public string identifier { get; set; }
+        public required string Identifier { get; set; }
         [Required]
-        public string firstname { get; set; }
-        public string lastname { get; set; }
-        public string Phone_number { get; set; }
-        public string sex { get; set; }
+        public required string Firstname { get; set; }
+        public required string Lastname { get; set; }
+        public required string Phone_number { get; set; }
+        public required string Sex { get; set; }
 
     }
     public class PlayerInfoViewModel

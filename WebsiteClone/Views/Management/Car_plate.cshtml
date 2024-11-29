@@ -1,7 +1,9 @@
-﻿
+﻿@model IEnumerable<WebsiteClone.Models.Car_plate>;
 @{
     ViewData["Title"] = "ระบบจัดการทะเบียนรถ";
     // ชื่อเซิฟเวอร์
+
+    var datacarCount = ViewBag.DatacarCount;
 }
 
 <!DOCTYPE html>
@@ -15,10 +17,42 @@
 </head>
 <body>
     <h1>ระบบจัดการทะเบียนรถ</h1>
-
+    <p>จำนวนรถในเซิฟเวอร์ : <span class="highlight">@datacarCount</span> คัน</p>
     <div class="text-center mt-4">
         <a href="/Management" class="btn btn-secondary">ย้อนกลับไปยังหน้า Management</a>
     </div>
+    <table class="table table-striped table-hover table-bordered" id="userTable">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>Steam ID</th>
+                <th>รุ่นรถ</th>
+                <th>ป้ายทะเบียน</th>
+                <th>แก้ไข</th>
+                <th>ลบ</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Car_plate in Model)
+            {
+                <tr>
+                    <td>@Car_plate.Identifier</td>
+                    <td>@Car_plate.CarId</td>
+                    <td>@Car_plate.CarPlate</td>
+                    <td style="text-align: center;">
+                        <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#addEmployee"
+                                data-url="@Url.Action("Edit")">
+                            Edit
+                        </button>
+                    </td>
+                    <td style="text-align: center;">
+                        <a href="@Url.Action("Delete", new { id = Car_plate.Identifier })" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('คุณต้องการลบข้อมูลนี้ใช่หรือไม่?');">
+                            <i class="bi bi-trash"></i> ลบ
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
     <script src="~/js/site.js"></script>
     <script>
 

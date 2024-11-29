@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebsiteClone.Data;
 using WebsiteClone.Models;
 
@@ -21,7 +22,9 @@ namespace WebsiteClone.Controllers
         }
         public IActionResult Car_plate()
         {
-            return View();
+            var car_plate = _db.Car_Plate.FromSqlInterpolated($"Select * from car_plate");
+            ViewBag.DatacarCount = car_plate.Count(); // นับจำนวนข้อมูล
+            return View(car_plate);
         }
 
         public IActionResult Item_list()
