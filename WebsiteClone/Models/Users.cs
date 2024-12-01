@@ -15,7 +15,7 @@ namespace WebsiteClone.Models
     }
     public class PlayerInfoViewModel
     {
-        public IEnumerable<Users> AllPlayers { get; set; }
+        public required IEnumerable<Users> AllPlayers { get; set; }
         public int PlayerCount { get; set; }
     }
 

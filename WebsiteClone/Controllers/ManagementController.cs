@@ -20,11 +20,26 @@ namespace WebsiteClone.Controllers
         
             return View();
         }
+        ///  query หาข้อมูลรถใน server บอก  เจ้าของ, ป้ายทะเบียน,และรุ่นรถ 
         public IActionResult Car_plate()
         {
-            var car_plate = _db.Car_Plate.FromSqlInterpolated($"Select * from car_plate");
-            ViewBag.DatacarCount = car_plate.Count(); // นับจำนวนข้อมูล
-            return View(car_plate);
+            var carPlateData = _db.Car_Plate
+         .FromSqlInterpolated($@"
+        SELECT 
+            CAR_PLATE.IDENTIFIER,
+            CAR_PLATE.CAR_ID,
+            CAR_PLATE.CAR_NUMBER,
+            USERS.FIRSTNAME,
+            USERS.LASTNAME
+        FROM CAR_PLATE 
+        JOIN USERS ON USERS.IDENTIFIER = CAR_PLATE.IDENTIFIER
+        ORDER BY USERS.IDENTIFIER ").ToList();
+
+            // นับจำนวนข้อมูล
+            ViewBag.DatacarCount = carPlateData.Count();
+
+            // ส่งข้อมูลไปยัง View
+            return View(carPlateData);
         }
 
         public IActionResult Item_list()

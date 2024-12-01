@@ -8,8 +8,10 @@ namespace WebsiteClone.Models
         [Key]
         public required string Identifier { get; set; }
         [Required]
-        public required string CarId { get; set; }
-        public required string CarPlate { get; set; }
+        public required string Car_id { get; set; }
+        public required string Car_number { get; set; }
+        public required string Firstname { get; set; }
+        public required string Lastname { get; set; }
 
     }
     public class CarplateViewModel

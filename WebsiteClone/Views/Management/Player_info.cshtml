@@ -50,10 +50,10 @@
                 @foreach (var Users in Model)
                 {
                     <tr>
-                        <td>@Users.identifier</td>
-                        <td>@Users.sex</td>
-                        <td>@Users.firstname</td>
-                        <td>@Users.lastname</td>
+                        <td>@Users.Identifier</td>
+                        <td>@Users.Sex</td>
+                        <td>@Users.Firstname</td>
+                        <td>@Users.Lastname</td>
                         <td>@Users.Phone_number</td>
                         <td style="text-align: center;">
                             <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#addEmployee"
@@ -62,7 +62,7 @@
                             </button>
                         </td>
                         <td style="text-align: center;">
-                            <a href="@Url.Action("Delete", new { id = Users.identifier })" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('คุณต้องการลบข้อมูลนี้ใช่หรือไม่?');">
+                            <a href="@Url.Action("Delete", new { id = Users.Identifier })" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('คุณต้องการลบข้อมูลนี้ใช่หรือไม่?');">
                                 <i class="bi bi-trash"></i> ลบ
                             </a>
                         </td>
