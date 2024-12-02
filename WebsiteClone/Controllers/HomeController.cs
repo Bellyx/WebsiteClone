@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using WebsiteClone.Models;
 
@@ -28,5 +28,7 @@ namespace WebsiteClone.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        // หน้า Dashboard
+
     }
 }
