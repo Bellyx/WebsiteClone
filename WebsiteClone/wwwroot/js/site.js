@@ -61,7 +61,6 @@ function Edit(identifier, updatedData) {
     });
 }
 
-
 console.log('Data to send:', JSON.stringify({
     id: identifier,
     updatedData: updatedData
@@ -77,6 +76,43 @@ function openEditModal(identifier, name, email) {
 
     // เปิด Modal
     $('#editModal').modal('show');
+}
+
+function ShowPopup(idUserProfile) {
+    $.ajax({
+        type: 'POST',
+
+     //   url: "@Url.Action("Method", "Controller")",
+
+        data: { idUserProfile },
+
+        success: function (response) {
+
+
+            $.magnificPopup.open({
+
+                items: {
+
+                    src: response
+
+                },
+
+                type: 'inline',
+
+                modal: true,
+
+                closeOnBgClick: false,
+
+                focus: '#btnDismiss'
+
+            });
+        },
+
+        error: function (xhr, ajaxOptions, thrownError) {
+
+        }
+
+    });
 }
 
 

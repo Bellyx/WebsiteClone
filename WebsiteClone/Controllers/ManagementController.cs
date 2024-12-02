@@ -55,7 +55,12 @@ namespace WebsiteClone.Controllers
             return View(Allplayer);
         }
 
-    
+        public ActionResult Detail_list()
+        {
+            var detail_list = _db.Car_Plate;
+            return PartialView();
+        }
+
 
     }
 }

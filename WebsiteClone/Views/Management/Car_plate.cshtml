@@ -21,6 +21,12 @@
     <div class="text-center mt-4">
         <a href="/Management" class="btn btn-secondary">ย้อนกลับไปยังหน้า Management</a>
     </div>
+
+    <!-- ช่องค้นหาข้อมูล -->
+    <div class="mb-4">
+        <input type="text" id="searchInput" class="form-control form-control-lg" placeholder="ค้นหาข้อมูล (เช่น ชื่อ, ไอดีสตรีม)" aria-label="ค้นหาข้อมูล">
+    </div>
+
     <table class="table table-striped table-hover table-bordered" id="userTable">
         <thead class="table-dark text-center">
             <tr>
@@ -30,6 +36,7 @@
                 <th>รุ่นรถ</th>
                 <th>ป้ายทะเบียน</th>
                 <th>แก้ไข</th>
+                <th>ข้อมูล</th>
                 <th>ลบ</th>
             </tr>
         </thead>
@@ -43,14 +50,19 @@
                     <td>@Car_plate.Car_id</td>
                     <td>@Car_plate.Car_number</td>
                     <td style="text-align: center;">
-                        <button type="button" class="btn btn-primary" data-toggle="ajax-modal" data-target="#addEmployee"
+                        <button type="button" class="btn btn-warning" data-toggle="ajax-modal" data-target="#addEmployee"
                                 data-url="@Url.Action("Edit")">
-                            Edit
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            แก้ไข
                         </button>
                     </td>
                     <td style="text-align: center;">
-                        <a href="@Url.Action("Delete", new { id = Car_plate.Identifier })" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('คุณต้องการลบข้อมูลนี้ใช่หรือไม่?');">
-                            <i class="bi bi-trash"></i> ลบ
+                        <button class="btn btn-primary" onclick="ShowPopup()">Show Upload</button>
+                    </td>
+                    <td style="text-align: center;">
+                        <a href="@Url.Action("Delete", new { id = Car_plate.Identifier })" class="btn btn-danger" onclick="return confirm('คุณต้องการลบข้อมูลนี้ใช่หรือไม่?');">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                            ลบ
                         </a>
                     </td>
                 </tr>
