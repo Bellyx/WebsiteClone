@@ -21,7 +21,11 @@ builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = DiscordAuthenticationDefaults.AuthenticationScheme;
-}).AddCookie()
+}).AddCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.AccessDeniedPath = "/Account/AccessDenied";  // กำหนดหน้า Access Denied ถ้าผู้ใช้ไม่มีสิทธิ์
+})
 .AddDiscord(options =>
 {
     // ตั้งค่า Client ID และ Client Secret จาก appsettings.json
@@ -40,6 +44,11 @@ builder.Services.AddAuthentication(options =>
     options.ClaimActions.MapJsonKey("urn:discord:Role", "Role");
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    // กำหนด roles ต่างๆ หากต้องการ
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+});
 
 builder.Services.AddControllersWithViews();
 
@@ -71,6 +80,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
+
 
 app.Run();
 

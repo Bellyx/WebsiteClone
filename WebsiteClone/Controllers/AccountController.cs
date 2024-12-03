@@ -10,6 +10,7 @@ using WebsiteClone.Models;
 using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
+using System.Data;
 
 namespace WebsiteClone.Controllers
 {
@@ -53,7 +54,7 @@ namespace WebsiteClone.Controllers
 
                 // ดึง Role ของผู้ใช้จากฐานข้อมูล
                 var role = await GetUserRoleAsync(userId, username);
-               
+
                 // สร้าง URL สำหรับรูปโปรไฟล์
                 string avatarUrl = string.Empty;
                 if (!string.IsNullOrEmpty(avatar) && !string.IsNullOrEmpty(userId))
@@ -72,15 +73,21 @@ namespace WebsiteClone.Controllers
                 ViewData["AvatarUrl"] = avatarUrl;
                 ViewData["Username"] = username;
                 ViewData["UserId"] = userId;
-                ViewData["discriminator"] = discriminator;
-                TempData["Role"] = role;
+                ViewData["Discriminator"] = discriminator;
 
+                // ถ้าผู้ใช้มี Role = "Admin" ให้รีไดเร็กไปที่หน้า AddRole
+                if (role == "Admin")
+                {
+                    return RedirectToAction("AddRole", "Account");
+                }
 
+                // ถ้า Role เป็น User หรืออื่น ๆ ให้ไปยัง Dashboard
                 return RedirectToAction("Dashboard", "Account");
             }
 
             return RedirectToAction("Login");
         }
+
 
         // สำหรับ Dashboard เข้าหน้า
         [Authorize]
@@ -91,21 +98,25 @@ namespace WebsiteClone.Controllers
             var userId = User.FindFirst("urn:discord:id")?.Value; // ดึงข้อมูล UserId จาก Claims ที่ Discord ส่งมา
             var avatar = User.FindFirst("urn:discord:avatar")?.Value; // ดึงข้อมูล avatar hash จาก Claims ที่ Discord ส่งมา
             var discriminator = User.FindFirst("urn:discord:discriminator")?.Value; // ดึงข้อมูล discriminator จาก Claims (ถ้ามี)
-            var role = TempData["Role"]?.ToString();
-
+            var role = _db.Discordpermiss.FromSqlRaw("SELECT  * FROM Discordpermiss WHERE UserId = {0}", userId).ToList();
             // สร้าง URL สำหรับรูปโปรไฟล์ Discord
             string avatarUrl = string.Empty;
             if (!string.IsNullOrEmpty(avatar) && !string.IsNullOrEmpty(userId))
             {
                 avatarUrl = $"https://cdn.discordapp.com/avatars/{userId}/{avatar}.png";
             }
+            var adminRole = role.FirstOrDefault(r => r.Role == "Admin");
 
+            if (adminRole != null)
+            {
+                // If an "Admin" role is found, redirect to the "AddRole" action with the role name
+                return RedirectToAction("AddRole", "Account");
+            }
             // ส่งข้อมูลไปยัง View
             ViewData["Username"] = username;
             ViewData["Discriminator"] = discriminator;
             ViewData["UserId"] = userId;
             ViewData["AvatarUrl"] = avatarUrl;
-            ViewData["Role"] = role;  // ส่งข้อมูล Role ไปยัง View
             return View();
         }
 
@@ -122,6 +133,7 @@ namespace WebsiteClone.Controllers
         }
 
         // ดึง Role ของผู้ใช้จากฐานข้อมูล
+
         public async Task<string> GetUserRoleAsync(string userId, string username)
         {
             // ค้นหาผู้ใช้ในฐานข้อมูลตาม UserId
@@ -129,30 +141,28 @@ namespace WebsiteClone.Controllers
                                  .FromSqlRaw("SELECT UserID, USERNAME, ROLE FROM Discordpermiss WHERE UserId = {0}", userId)
                                  .FirstOrDefaultAsync();
 
-            // ถ้าไม่พบผู้ใช้ ให้ทำการ Insert ข้อมูลใหม่ลงในตาราง และกำหนด Role เป็น "User"
             if (user == null)
             {
-                // สร้างคำสั่ง SQL สำหรับ Insert ข้อมูลใหม่โดยใช้ parameterized query
                 var sql = "INSERT INTO Discordpermiss (UserId, Username, Role) VALUES ({0}, {1}, {2})";
-
-                // รันคำสั่ง SQL โดยใช้ ExecuteSqlRawAsync
                 await _db.Database.ExecuteSqlRawAsync(sql, userId, username, "User");
-
-                // กำหนด Role เป็น "User"
-                return "User";  // ส่งค่า Role ที่กำหนดให้กับผู้ใช้ใหม่
+                return "User";
             }
-            // ถ้าพบผู้ใช้และ Role ให้ส่งค่า Role ของผู้ใช้, ถ้าไม่พบจะคืนค่า "User"
-                return user?.Role ?? "User";  // ถ้าไม่พบ Role จะใช้ค่า "User" เป็นค่าเริ่มต้น
+
+            return user?.Role ?? "User";
         }
 
-
-
-
         ///
-        [Authorize(Roles = "Admin")]  // ผู้ใช้ที่มี Role "Admin" เท่านั้นที่สามารถเข้าถึงหน้า AdminPage ได้
-        public IActionResult AdminPage()
+
+        // ฟังก์ชันในการเพิ่ม role อื่นๆ (ถ้ามี)
+        // ฟังก์ชันในการเพิ่ม role อื่นๆ (ถ้ามี)
+        //  [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public IActionResult AddRole()
         {
-            return View();
+            // เพิ่ม Role logic ที่นี่
+            // ตัวอย่างการเพิ่ม Role
+            // _roleManager.CreateAsync(new IdentityRole(roleName));
+            return RedirectToAction("Dashboard", "Account"); // หลังจากเพิ่ม Role หรือทำอะไรแล้ว รีไดเร็กกลับไปหน้า Dashboard
         }
     }
 }

@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewData["Title"] = "AddRole";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        .form-container {
+            display: none;
+        }
+    </style>
+    <script>
+        function showForm(formId) {
+            // ซ่อนเนื้อหาหลัก
+            document.getElementById('main-content').style.display = 'none';
+
+            // ซ่อนฟอร์มทั้งหมดก่อน
+            var forms = document.querySelectorAll('.form-container');
+            forms.forEach(function(form) {
+                form.style.display = 'none';
+            });
+
+            // แสดงฟอร์มที่ต้องการ
+            document.getElementById(formId).style.display = 'block';
+        }
+
+        function hideForm() {
+            // แสดงเนื้อหาหลักกลับ
+            document.getElementById('main-content').style.display = 'block';
+
+            // ซ่อนฟอร์มทั้งหมด
+            var forms = document.querySelectorAll('.form-container');
+            forms.forEach(function(form) {
+                form.style.display = 'none';
+            });
+        }
+    </script>
+</head>
+<body>
+    <div class="container-dasboard">
+        <!-- Sidebar for Menu -->
+        <div class="sidebar">
+            <h3>เมนู</h3>
+            <!-- ปุ่มที่เปิดฟอร์มเพิ่ม Role, ไอเท็ม, Code -->
+            <button type="button" onclick="showForm('add-role-form')">เพิ่ม Role</button>
+            <button type="button" onclick="showForm('add-item-form')">เพิ่มไอเท็ม</button>
+            <button type="button" onclick="showForm('add-code-form')">เพิ่ม Code</button>
+        </div>
+
+        <!-- Main content -->
+        <div class="main-content-dasboard" id="main-content">
+            <h2>ยินดีต้อนรับ คุณ @ViewData["Username"]</h2>
+            <p>Your Discord ID is: @ViewData["UserId"]</p>
+
+            @if (ViewData["AvatarUrl"] != null)
+            {
+                <img src="@ViewData["AvatarUrl"]" alt="Profile Picture" class="avatar" />
+            }
+
+            <div class="card">
+                <h3>Account Overview</h3>
+                <p>Here you can view your profile and settings.</p>
+            </div>
+
+            <form method="post" asp-controller="Account" asp-action="Logout">
+                <button type="submit" class="logout-button">Logout</button>
+            </form>
+        </div>
+
+        <!-- Add Role Form -->
+        <div class="form-container" id="add-role-form">
+            <h2>เพิ่ม Role</h2>
+            <form method="post" asp-controller="Account" asp-action="AddRole">
+                <div class="form-group">
+                    <label for="discordId">Your Discord ID:</label>
+                    <span class="error-message">* ดูที่หน้า Dashboard</span>
+                    <input type="text" id="discordId" name="discordId" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="discordName">Name Discord:</label>
+                    <input type="text" id="discordName" name="discordName" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select id="role" name="role" required>
+                        <option value="">กรุณาเลือก</option>
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">บันทึก</button>
+            </form>
+            <button onclick="hideForm()" class="back-btn">กลับ</button>
+        </div>
+
+        <!-- Add Item Form -->
+        <div class="form-container" id="add-item-form">
+            <h2>เพิ่มไอเท็ม</h2>
+            <form method="post" asp-controller="Account" asp-action="AddItem">
+                <div class="form-group">
+                    <label for="productId">รหัสสินค้า:</label>
+                    <input type="text" id="productId" name="productId" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="productName">ชื่อสินค้า:</label>
+                    <input type="text" id="productName" name="productName" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="productDescription">คำอธิบายสินค้า:</label>
+                    <textarea id="productDescription" name="productDescription" rows="4" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="pricePerDay">ราคา/วัน (บาท):</label>
+                    <input type="number" id="pricePerDay" name="pricePerDay" required />
+                </div>
+
+                <div class="form-group">
+                    <label for="pointsRequired">แต้มที่ต้องการ:</label>
+                    <input type="number" id="pointsRequired" name="pointsRequired" required />
+                </div>
+                <div class="form-group">
+                    <label for="productImage">อัพโหลดรูปสินค้า:</label>
+                    <input type="file" id="productImage" name="productImage" accept="image/*" />
+                </div>
+
+                <button type="submit" class="submit-btn">บันทึก</button>
+            </form>
+            <button onclick="hideForm()" class="back-btn">กลับ</button>
+        </div>
+
+
+        <!-- Add Code Form -->
+        <div class="form-container" id="add-code-form">
+            <h2>เพิ่ม Code</h2>
+            <form method="post" asp-controller="Account" asp-action="AddCode">
+                <div id="code-rows-container">
+                    <!-- Initially empty, rows will be added here -->
+                </div>
+
+                <button type="button" onclick="addCodeRow()" class="submit-btn">เพิ่ม Code ใหม่</button>
+
+                <button type="submit" class="submit-btn">บันทึก</button>
+            </form>
+            <button onclick="hideForm()" class="back-btn">กลับ</button>
+        </div>
+    </div>
+</body>
+</html>

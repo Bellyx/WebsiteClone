@@ -9,29 +9,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <style>
-      
+        .form-container {
+            display: none;
+        }
     </style>
+    <script>
+        function showForm(formId) {
+            // ซ่อนเนื้อหาหลัก
+            document.getElementById('main-content').style.display = 'none';
+
+            // ซ่อนฟอร์มทั้งหมดก่อน
+            var forms = document.querySelectorAll('.form-container');
+            forms.forEach(function(form) {
+                form.style.display = 'none';
+            });
+
+            // แสดงฟอร์มที่ต้องการ
+            document.getElementById(formId).style.display = 'block';
+        }
+
+        function hideForm() {
+            // แสดงเนื้อหาหลักกลับ
+            document.getElementById('main-content').style.display = 'block';
+
+            // ซ่อนฟอร์มทั้งหมด
+            var forms = document.querySelectorAll('.form-container');
+            forms.forEach(function(form) {
+                form.style.display = 'none';
+            });
+        }
+    </script>
 </head>
 <body>
-    <div class="container">
-        <div class="dashboard">
-            <h2>ยินดีต้อนรับ คุณ  @ViewData["Username"]#@ViewData["Discriminator"]</h2>
+    <div class="container-dasboard">
+        <!-- Sidebar for Menu -->
+        <div class="sidebar">
+            <h3>เมนู</h3>
+            <!-- ปุ่มที่เปิดฟอร์มเพิ่ม Role, ไอเท็ม, Code -->
+         @*    <button type="button" onclick="showForm('add-role-form')">เพิ่ม Role</button>
+            <button type="button" onclick="showForm('add-item-form')">เพิ่มไอเท็ม</button>
+            <button type="button" onclick="showForm('add-code-form')">เพิ่ม Code</button> *@
+        </div>
+
+        <!-- Main content -->
+        <div class="main-content-dasboard" id="main-content">
+            <h2>ยินดีต้อนรับ คุณ @ViewData["Username"]</h2>
             <p>Your Discord ID is: @ViewData["UserId"]</p>
-            <p>Role: @ViewData["Role"]</p>
+
             @if (ViewData["AvatarUrl"] != null)
             {
                 <img src="@ViewData["AvatarUrl"]" alt="Profile Picture" class="avatar" />
             }
-            
+
             <div class="card">
                 <h3>Account Overview</h3>
                 <p>Here you can view your profile and settings.</p>
             </div>
 
-            <form method="post" asp-action="Logout">
+            <form method="post" asp-controller="Account" asp-action="Logout">
                 <button type="submit" class="logout-button">Logout</button>
             </form>
         </div>
     </div>
 </body>
 </html>
+

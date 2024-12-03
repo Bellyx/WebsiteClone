@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    ViewData["Title"] = "Login";
 }
 <!DOCTYPE html>
 <html lang="th">
@@ -15,13 +16,13 @@
 <body>
     <h1>หน้าหลัก</h1>
 
-    <div class="text-center mt-4">
-        <a href="/Management" class="btn btn-secondary">ย้อนกลับไปยังหน้า Management</a>
-    </div>
-
     <!-- ลิงก์เข้าสู่ระบบ Discord -->
     <div class="text-center mt-4">
         <a href="@Url.Action("LoginWithDiscord", "Account")" class="btn btn-primary">Login with Discord</a>
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="/Management" class="btn btn-secondary">ย้อนกลับไปยังหน้า Management</a>
     </div>
 
     <script src="~/js/site.js"></script>
