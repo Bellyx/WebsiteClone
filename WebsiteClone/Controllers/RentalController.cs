@@ -23,6 +23,7 @@ namespace WebsiteClone.Controllers
             // กำหนดจำนวนวันที่เช่า (7 วัน) และคำนวณวันที่หมดอายุ
             var rental = new Rental
             {
+                Identifier = Guid.NewGuid().ToString(),  // กำหนดค่าถูกต้องที่นี่
                 ProductId = productId,
                 StartDate = DateTime.Now,
                 ExpiryDate = DateTime.Now.AddDays(7),

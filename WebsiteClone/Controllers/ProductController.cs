@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using WebsiteClone.Data;
 using WebsiteClone.Models;
@@ -35,5 +36,31 @@ namespace WebsiteClone.Controllers
         {
             throw new NotImplementedException();
         }
+
+        ///สำหรับ Popup Add Product
+        [HttpPost]
+        public async Task<IActionResult> AddProduct([FromBody] Product model)
+        {
+            if (ModelState.IsValid)
+            {
+                var newProduct = new Product
+                {
+                    ProductId   = model.ProductId,
+                    Productname = model.Productname,
+                    Description = model.Description,
+                    PricePerDay = model.PricePerDay,
+                    PointsRequired = model.PointsRequired
+                };
+
+                _db.Product.Add(newProduct);
+                await _db.SaveChangesAsync();
+
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
+        }
+
     }
+
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.EntityFrameworkCore;
 using WebsiteClone.Data;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,17 +22,23 @@ builder.Services.AddAuthentication(options =>
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = DiscordAuthenticationDefaults.AuthenticationScheme;
 }).AddCookie()
-.AddDiscord(options => {
-// ตั้งค่า Client ID และ Client Secret จาก appsettings.json
-options.ClientId = builder.Configuration["Discord:ClientId"];
-options.ClientSecret = builder.Configuration["Discord:ClientSecret"];
-options.Scope.Add("identify"); // กำหนดสิทธิ์ที่ต้องการ
-options.SaveTokens = true;
-options.CallbackPath = new PathString("/signin-discord");
-    // ใช้ event เพื่อจัดการข้อมูลที่ได้รับจาก Discord
+.AddDiscord(options =>
+{
+    // ตั้งค่า Client ID และ Client Secret จาก appsettings.json
+    options.ClientId = builder.Configuration["Discord:ClientId"];
+    options.ClientSecret = builder.Configuration["Discord:ClientSecret"];
+    options.Scope.Add("identify"); // กำหนดสิทธิ์ที่ต้องการ
+    options.SaveTokens = true;
+    options.CallbackPath = new PathString("/signin-discord");
 
+    // เพิ่ม event สำหรับจัดการข้อมูลที่ได้รับจาก Discord
+    options.ClaimActions.MapJsonKey("urn:discord:username", "username");
+    options.ClaimActions.MapJsonKey("urn:discord:UserId", "UserId");
+    options.ClaimActions.MapJsonKey("urn:discord:avatar", "avatar");
+    options.ClaimActions.MapJsonKey("urn:discord:Discriminator", "discriminator");
+    options.ClaimActions.MapJsonKey("urn:discord:id", "id");
+    options.ClaimActions.MapJsonKey("urn:discord:Role", "Role");
 });
-
 
 
 builder.Services.AddControllersWithViews();

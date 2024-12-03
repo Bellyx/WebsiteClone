@@ -21,3 +21,41 @@ CREATE TABLE Rental (
     IsExpired BIT,                         -- สถานะการหมดอายุ (ใช้ BIT เพื่อเก็บค่า TRUE/FALSE)
 );
 */
+// สำหรับ หน้า Login member
+
+//CREATE TABLE members(
+//    member_id INT IDENTITY(1, 1) PRIMARY KEY, --ใช้ IDENTITY แทน AUTO_INCREMENT
+//	indentifier VARCHAR(50),
+//    UID VARCHAR(50),
+//    username VARCHAR(50) NOT NULL UNIQUE,
+//    password_hash VARCHAR(255) NOT NULL,
+//    email VARCHAR(100) NOT NULL UNIQUE,
+//    full_name VARCHAR(100) NOT NULL,
+//    created_at DATETIME DEFAULT GETDATE(), --ใช้ GETDATE() สำหรับวันที่ปัจจุบัน
+//    updated_at DATETIME DEFAULT GETDATE()-- ใช้ GETDATE() สำหรับวันที่ปัจจุบัน
+//);
+
+//Log login ไว้สำหรับดูการ เข้าสู่ระบบ
+//CREATE TABLE login_history(
+//    login_id INT IDENTITY(1, 1) PRIMARY KEY, --รหัสการเข้าสู่ระบบ
+//    member_id INT NOT NULL, --รหัสผู้ใช้(เชื่อมโยงกับตาราง members)
+//    login_timestamp DATETIME DEFAULT GETDATE(), --เวลาที่เข้าสู่ระบบ(ใช้ GETDATE() สำหรับเวลา)
+//    ip_address VARCHAR(45), --ที่อยู่ IP ของผู้ใช้
+//    FOREIGN KEY(member_id) REFERENCES members(member_id)-- การเชื่อมโยงกับตาราง members
+//);
+
+// Reset password
+//CREATE TABLE password_resets(
+//    reset_id INT IDENTITY(1, 1) PRIMARY KEY, --รหัสการรีเซ็ตรหัสผ่าน(เพิ่มอัตโนมัติ)
+//    member_id INT NOT NULL, --รหัสผู้ใช้(เชื่อมโยงกับตาราง users)
+//    reset_token VARCHAR(255) NOT NULL, --โทเค็นสำหรับการรีเซ็ตรหัสผ่าน
+//    created_at DATETIME DEFAULT GETDATE(), --เวลาที่ขอรีเซ็ตรหัสผ่าน(ใช้ GETDATE() สำหรับเวลา)
+//    FOREIGN KEY(member_id) REFERENCES members(member_id)-- การเชื่อมโยงกับตาราง users
+//);
+
+/// Discord permiss
+//CREATE TABLE Discordpermiss(
+//    UserId BIGINT PRIMARY KEY,
+//    Username NVARCHAR(255),
+//    Role NVARCHAR(50)
+//);

@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using WebsiteClone.Models;
 
@@ -15,6 +16,7 @@ namespace WebsiteClone.Controllers
 
         public IActionResult Index()
         {
+
             return View();
         }
 
@@ -29,6 +31,6 @@ namespace WebsiteClone.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
         // หน้า Dashboard
-
+   
     }
 }

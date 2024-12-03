@@ -115,4 +115,26 @@ function ShowPopup(idUserProfile) {
     });
 }
 
+// สำหรับ Alert ยืนยัน การซื้อของใน Product
+
+document.getElementById('rent-link').addEventListener('click', function (event) {
+    event.preventDefault(); // ป้องกันไม่ให้ลิงก์ทำงานทันที
+
+    // ใช้ SweetAlert2 แสดงข้อความยืนยัน
+    Swal.fire({
+        title: "ยืนยันการซื้อ?",
+        text: 'คุณต้องการยืนยันการซื้อ ' + '@product.ProductName' + ' ใช่หรือไม่?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // หากผู้ใช้กด "ยืนยัน" ให้ทำการส่งลิงก์ไปยัง Action ที่ต้องการ
+            window.location.href = this.href;
+        }
+    });
+});
 
